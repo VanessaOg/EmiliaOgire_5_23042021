@@ -1,13 +1,5 @@
 @import url("https://fonts.googleapis.com/css?family=Lato:400,700");
 
-:root {
-	--primaryColor: #f09d51;
-	--mainWhite: #fff;
-	--mainBlack: #222;
-	--mainGrey: #ececec;
-	--mainSpacing: 0.1rem;
-	--mainTransition: all 0.3s linear;
-}
 * {
 	margin: 0;
 	padding: 0;
@@ -22,34 +14,70 @@ body {
 	background: rgb(243, 233, 241);
 }
 
-/* --------------- Navbar ---------------- */
-.navbar {
-	position: sticky;
-	top: 0;
-	height: 60px;
-	width: 100%;
-	display: flex;
-	align-items: center;
-	background: rgb(243, 233, 241);
-	z-index: 1;
-}
-.navbar-center {
-	width: 100%;
-	max-width: 1170px;
-	margin: 0 auto;
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-	padding: 0 1.5rem;
-}
-.nav-icon {
-	font-size: 1.5rem;
-}
 .cart-btn {
 	position: relative;
 	cursor: pointer;
 }
-
 #number {
 	width: 3em;
+}
+/******************* FORM *************/
+.form-control {
+	margin-bottom: 10px;
+	padding-bottom: 15px;
+	position: relative;
+	background: rgb(243, 233, 241);
+	border: none;
+}
+
+.form-control label {
+	display: inline-block;
+	margin-bottom: 5px;
+}
+.form-control input {
+	border: 2px solid rgb(196, 186, 194);
+	font-size: 14px;
+	display: block;
+	width: 100%;
+	font-size: 14px;
+}
+.form-control input:focus {
+	outline: 0;
+}
+.form-control i {
+	visibility: hidden;
+	position: absolute;
+	top: 40px;
+	right: 20px;
+}
+/* if input is correct */
+.form-control.success input {
+	border-color: #2ecc71;
+}
+.form-control.success i.fa-check-circle {
+	color: #2ecc71;
+	visibility: visible;
+}
+/* if input is not correct */
+.form-control.error input {
+	border-color: #e74c3c;
+}
+.form-control.error i.fa-exclamation-circle {
+	color: #e74c3c;
+	visibility: visible;
+}
+.form-control small {
+	position: absolute;
+	bottom: -5px;
+	left: 5px;
+	visibility: hidden;
+}
+
+.form-control.error small {
+	color: #e74c3c;
+	visibility: visible;
+}
+.form-control.success small {
+	color: #2ecc71;
+	visibility: visible;
 }

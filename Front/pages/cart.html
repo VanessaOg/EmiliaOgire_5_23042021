@@ -26,80 +26,106 @@
 		<!-- Header -->
 		<header class="d-flex bgColor justify-content-between">
 			<a href="../pages/index.html"><img src="../images/logo.png" alt="logo" width="100" /></a>
-			<!-- <nav class="flex">
-				<ul class="list-group">
-					<li class="list-group-item bgColor">
-						<a href="../pages/cart.html" class="px-4 py-4 stretched-link text-decoration-none"
-							>Panier</a
-						>
-					</li>
-				</ul>
-			</nav> -->
 		</header>
 		<!-- End of Header -->
-        <section class="p-4 mt-4 rounded-md ">
-            <h2 class="mb-2 display-4 text-center font-bold">Votre panier</h2>
-  
-            <table class="table table-hover table-striped border bgColor">
-              <thead>
-                <tr class="bg-white border">  
-                    <th class="py-2">Produit</th>
-                    <th>Image</th>
-                    <th>Prix</th>
-                    <th>Quantité</th>
-                    <th>Total</th>
-                </tr>
-              </thead>
-              <tbody id="item-list"></tbody>
-              <tr  class="bg-white border">
-                  <td colspan="4" class="text-center">Total</td>
-                  <td class="text-center" id="total-price"> €</td>
-              </tr>
-			</table>
+		<section class="p-4 mt-4 rounded-md">
+			<h2 class="mb-2 display-4 text-center font-bold">Votre panier</h2>
 
-            <!--  Section of Form -->
-		<section class="form mt-5 backgrd" id="user-form">
+			<div class="container">
+				<table class="table table-hover table-striped table-sm border bgColor">
+					<thead>
+						<tr class="bg-white border">
+							<th class="py-2">Produit</th>
+							<th>Image</th>
+							<th>Prix</th>
+							<th>Quantité</th>
+							<th class="text-center">Total</th>
+						</tr>
+					</thead>
+					<tbody id="item-list" class="cart-items"></tbody>
+					<tr class="bg-white border">
+						<td colspan="4" class="text-center" style="font-weight: bold">Total de la commande</td>
+						<td class="text-center total-price" style="font-weight: bold">€</td>
+					</tr>
+				</table>
+			</div>
+		</section>
+
+		<!--  Section of Form -->
+		<section class="mt-5 backgrd">
 			<div class="container mt-4">
 				<h3 class="display-8 text-center mt-4 mb-4">Vos coordonnées</h3>
-				<div class="grid grid-cols-4 gap-4 container  pt-3 mb-3 bgColor">
-					<form action="" id="user-form">
-						<div class="row mb-3 ">
-                            <div class="col">
-							<label for="lastName">Nom</label>
-							<input type="text" id="lastName" required class="form-control mx-2" />
-                            </div>
-                            <div class="col">
-							<label for="firstname">Prénom</label>
-							<input type="text" id="firstName" required class="form-control mx-2" />
-                        </div>
-						</div>
-						<div class="form-group my-3 mx-2">
-							<label for="adresse">Adresse</label>
-							<input type="text" id="address" class="form-control block mx-2" />
-							<div class="row my-3">
-                                <div class="col">
-                                    <label for="zipCode">Code Postal</label>
-                                    <input type="text" id="zipCode" class="form-control mx-2" />
-                                </div>
-                                <div class="col">
-                                    <label for="city">Ville</label>
-                                    <input type="text" id="city" class="form-control mx-2" />
-                                </div>
+				<div class="grid grid-cols-4 gap-4 container pt-3 mb-3 bgColor form-control">
+					<form name="user-form" id="form">
+						<div class="row">
+							<div class="form-control bgColor col">
+								<label for="first-name">Prénom</label>
+								<input type="text" name="first-name" id="first-name" class="bgColor" />
+								<i class="fas fa-check-circle"></i>
+								<i class="fas fa-exclamation-circle"></i>
+								<small></small>
+							</div>
+							<div class="form-control bgColor col">
+								<label for="last-name">Nom</label>
+								<input type="text" name="last-name" id="last-name" class="bgColor" />
+								<i class="fas fa-check-circle"></i>
+								<i class="fas fa-exclamation-circle"></i>
+								<small></small>
 							</div>
 						</div>
-						<div class="form-group colspan-3 align-items-center my-3 mx-2">
+						<div class="form-control bgColor">
+							<div class="row">
+								<label for="address">Adresse</label>
+								<input
+									type="text"
+									name="address"
+									id="address"
+									class="bgColor block px-2"
+									minlength="2"
+								/>
+								<i class="fas fa-check-circle"></i>
+								<i class="fas fa-exclamation-circle"></i>
+								<small></small>
+							</div>
+							<div class="row">
+								<div class="form-control bgColor col">
+									<label for="zip-code">Code Postal</label>
+									<input
+										type="text"
+										name="zip-code"
+										id="zip-code"
+										class="bgColor"
+										pattern="[0-9]{,5}"
+									/>
+									<i class="fas fa-check-circle"></i>
+									<i class="fas fa-exclamation-circle"></i>
+									<small></small>
+								</div>
+								<div class="form-control bgColor col">
+									<label for="city">Ville</label>
+									<input type="text" name="city" id="city" class="bgColor" minlength="2" />
+									<i class="fas fa-check-circle"></i>
+									<i class="fas fa-exclamation-circle"></i>
+									<small></small>
+								</div>
+							</div>
+						</div>
+						<div class="form-control bgColor colspan-3 align-items-center">
 							<label for="email">Adresse Mail</label>
-							<input type="text" id="email" required class="form-control mx-2" />
+							<input type="email" name="email" id="email" required class="bgColor" minlength="2" />
+							<i class="fas fa-check-circle"></i>
+							<i class="fas fa-exclamation-circle"></i>
+							<small></small>
 						</div>
 						<div class="d-flex justify-content-end mb-3">
-                            <a href="" id="confirm" role="button" class="btn btn-secondary mb-3" href="#">Confirmer</a>
-                        </div>
+							<input type="submit" id="confirm" class="btn btn-secondary" value="Paiement" />
+						</div>
 					</form>
 				</div>
 			</div>
 		</section>
 		<!--  Enf of Section of Form -->
-        <script src="../js/utilities.js"></script>
-            <script src="../js/cart.js"></script>
+		<script src="../js/utilities.js"></script>
+		<script src="../js/cart.js"></script>
 	</body>
 </html>

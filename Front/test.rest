@@ -1,0 +1,17 @@
+GET http://localhost:3000/api/teddies
+###
+http://localhost:3000/api/teddies/
+###
+POST http://localhost:3000/api/teddies/order
+Content-Type: application/json
+
+{
+    "contact":{
+        "lastName":"a",
+        "firstName":"b", 
+        "city":"a",
+        "address":"a",
+        "email":"a"
+    },
+    "products":["5be9c8541c9d440000665243"]
+}
