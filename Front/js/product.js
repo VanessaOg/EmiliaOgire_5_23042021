@@ -3,15 +3,42 @@ const productId = document.getElementById("product");
 
 // requete API avec Fetch avec parametre de recherche _id
 const params = new URLSearchParams(window.location.search);
-console.log(window.location.search); //Affiche l'id du produit
 
 // params.get('id') récupère l'id de l'objet
 fetch("http://localhost:3000/api/teddies/" + params.get("id"))
 	.then((res) => res.json())
 	.then((product) => {
-		console.log(product._id);
 		// on injecte le code html dans la classe product
-		productId.innerHTML = `
+		displayProduct(product);
+
+		// colors
+		const selectElt = document.getElementById("color");
+		// selection des couleurs
+		product.colors.forEach((color) => {
+			//Colors
+			selectElt.innerHTML += `<option value='${color}'> ${color}</option>`;
+			selectElt.addEventListener("change", (event) => {
+				const productColor = event.target.value;
+				console.log(productColor);
+			});
+		});
+
+		// quantity
+
+		// Add event listeners
+		const addButton = document.getElementById("addBtn").addEventListener("click", (event) => {
+			event.preventDefault();
+			addProductToCart(product);
+			// console.log(productCart);
+			window.location.href = "cart.html";
+		});
+	})
+
+	.catch((err) => console.log("Erreur:" + err));
+
+// Functions
+function displayProduct(product) {
+	productId.innerHTML = `
 		<div class="row mt-4 col-sm-6 mx-auto">
 				<div class="card rounded-md p-4 bgColor col  mx-auto mt-4 mb-4 overflow-hidden">
 					<div class="col rounded-4">
@@ -42,36 +69,7 @@ fetch("http://localhost:3000/api/teddies/" + params.get("id"))
 				</div>
 			</div>
 		</div>`;
-
-		// colors
-		const selectElt = document.getElementById("color");
-
-		// selection des couleurs
-		product.colors.forEach((color) => {
-			//Colors
-			selectElt.innerHTML += `<option value='${color}'> ${color}</option>`;
-			selectElt.addEventListener("change", (event) => {
-				const productColor = event.target.value;
-				console.log(productColor);
-			});
-		});
-
-		// quantity
-		const selectQty = document.getElementById("qty");
-
-		// Add event listeners
-		const addButton = document.getElementById("addBtn").addEventListener("click", (event) => {
-			event.preventDefault();
-			addProductToCart(product);
-			// console.log(productCart);
-			window.location.href = "cart.html";
-		});
-	})
-
-	.catch((err) => console.log("Erreur:" + err));
-
-// Functions
-
+}
 function addProductToCart(product) {
 	let productsCart = Storage.getProducts();
 	console.log(productsCart);
@@ -80,11 +78,14 @@ function addProductToCart(product) {
 	const index = productsCartId.indexOf(product._id);
 	console.log(productsCartId);
 	console.log(index);
+	product.qty = 1;
+	console.log(product);
 	if (index === -1) {
 		productsCart.push(product);
+
 		alert("Votre article a bien été ajouté au panier");
 	} else {
-		// productsCart[index].productQty += product.qty;
+		productsCart[index].qty += product.qty;
 		alert("Ce produit est déjà dans le panier, Veuillez changer la quantité... Merci");
 	}
 	// Added product to LocalStorale

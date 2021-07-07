@@ -6,4 +6,4 @@ confirmationId.textContent = "" + orderConfirmation;
 let totalOrder = document.getElementById("totalOrder");
 totalOrder.textContent = "" + JSON.parse(localStorage.getItem("totalOrder")) + "€";
 
-localStorage.removeItem("productsCart");
+localStorage.removeItem("productsCart", "totalOrder", "orderConfirmation");

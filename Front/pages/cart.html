@@ -45,14 +45,14 @@
 					<tbody id="item-list" class="cart-items"></tbody>
 					<tr class="bg-white border">
 						<td colspan="4" class="text-center" style="font-weight: bold">Total de la commande</td>
-						<td class="text-center total-price" style="font-weight: bold">€</td>
+						<td class="text-center" id="total-price" style="font-weight: bold">€</td>
 					</tr>
 				</table>
 			</div>
 		</section>
 
 		<!--  Section of Form -->
-		<section class="mt-5 backgrd">
+		<section class="mt-5 mb-5 backgrd">
 			<div class="container mt-4">
 				<h3 class="display-8 text-center mt-4 mb-4">Vos coordonnées</h3>
 				<div class="grid grid-cols-4 gap-4 container pt-3 mb-3 bgColor form-control">
@@ -60,14 +60,14 @@
 						<div class="row">
 							<div class="form-control bgColor col">
 								<label for="first-name">Prénom</label>
-								<input type="text" name="first-name" id="first-name" class="bgColor" />
+								<input type="text" name="first-name" id="first-name" class="bgColor" required />
 								<i class="fas fa-check-circle"></i>
 								<i class="fas fa-exclamation-circle"></i>
 								<small></small>
 							</div>
 							<div class="form-control bgColor col">
 								<label for="last-name">Nom</label>
-								<input type="text" name="last-name" id="last-name" class="bgColor" />
+								<input type="text" name="last-name" id="last-name" class="bgColor" required />
 								<i class="fas fa-check-circle"></i>
 								<i class="fas fa-exclamation-circle"></i>
 								<small></small>
@@ -82,6 +82,7 @@
 									id="address"
 									class="bgColor block px-2"
 									minlength="2"
+									maxlength="60"
 								/>
 								<i class="fas fa-check-circle"></i>
 								<i class="fas fa-exclamation-circle"></i>
@@ -124,6 +125,9 @@
 				</div>
 			</div>
 		</section>
+		<nav class="navbar fixed-bottom navbar-dark bg-dark mt-5">
+			<span class="navbar-text text-end"> @copyrights Orinoco 2021 </span>
+		</nav>
 		<!--  Enf of Section of Form -->
 		<script src="../js/utilities.js"></script>
 		<script src="../js/cart.js"></script>

@@ -1,97 +1,104 @@
 document.addEventListener("DOMContentLoaded", displayCart);
-// displayCart;
-function displayCart() {
-	let cart = [];
-	console.log(cart);
-	// ---------------Récupérattion des données dans le local storage------------------//
-	let productsCart;
-	if (localStorage.getItem("productsCart") === null) {
-		productsCart = [];
-	} else {
-		productsCart = JSON.parse(localStorage.getItem("productsCart"));
-	}
-	cart = productsCart;
-	console.log(cart);
 
-	// ----------------------Affichage des produits------------------------------------//
+// ---------------Récupérattion des données dans le local storage------------------//
+let cart = [];
+let productsCart = Storage.getProducts();
+cart = productsCart;
+
+function displayCart() {
+	// ------------Affichage des produits----------//
 	cart.forEach((product) => {
-		const row = document.createElement("tr");
-		row.classList.add("cart-row");
-		row.innerHTML += `
+		displayRow(product);
+	});
+
+	// ---------Gestion des quantites----------//
+	let quantityInputs = document.getElementsByClassName("cart-quantity-input");
+	for (let i = 0; i < quantityInputs.length; i++) {
+		let input = quantityInputs[i];
+		input.addEventListener("change", quantityChanged);
+	}
+
+	// ---------------------- REMOVE EVENT------------------------//
+	let removeCartItemButtons = Array.from(document.querySelectorAll(".btn-remove"));
+	for (let i = 0; i < removeCartItemButtons.length; i++) {
+		let button = removeCartItemButtons[i];
+		button.addEventListener("click", removeCartItem);
+	}
+}
+
+function displayRow(product) {
+	const row = document.createElement("tr");
+	row.classList.add("cart-row");
+	row.innerHTML += `
 		<td class="cart-name">${product.name}</td>
     	<td>
 			<img class="img-thumbnail  style="height=100px, width=100px";"  src=${product.imageUrl}>
 		</td>
     	<td class="cart-price">${product.price / 100}€</td>
     	<td>
-			<input id="productQuantity" class="cart-quantity-input" value="1" type="number"  min="1" max="1" required id-data=${
-				product.quantity
-			}>
+			<input id="productQuantity" class="cart-quantity-input" value="${
+				product.qty
+			}" type="number"  min="1" max="10" required id-data=${product.qty}>
     		<button class="btn-remove btn btn-danger btn-sm "  type="button">REMOVE</button>
 		</td>
-		<td class="text-center total-row ">${product.price / 100}€</td>
+		<td class="text-center total-row ">€</td>
 		`;
-
-		const list = document.querySelector("#item-list");
-		list.appendChild(row);
-	});
-
-	// --------------------Affichage du total----------------//
-
-	const totalPrice = document.querySelector(".total-price");
-	let totalElt = [];
-	for (let i = 0; i < cart.length; i++) {
-		let pricesCart = cart[i].price / 100;
-		totalElt.push(pricesCart);
-		console.log(totalElt);
-	}
-	const totalPriceElt = totalElt.reduce((acc, item) => acc + parseInt(item, 10), 0);
-	console.log(totalPriceElt);
-	totalPrice.textContent = totalPriceElt + "€";
-	localStorage.setItem("totalOrder", JSON.stringify(totalPriceElt));
-
-	// ---------------------------------------------------------------------
-
-	// ---------------------- REMOVE EVENT------------------------//
-	const removeCartItemButtons = Array.from(document.querySelectorAll(".btn-remove"));
-	console.log(removeCartItemButtons);
-	for (let i = 0; i < removeCartItemButtons.length; i++) {
-		let button = removeCartItemButtons[i];
-		button.addEventListener("click", (event) => {
-			// console.log("clicked");
-			// removeCartItem(i);
-			event.preventDefault();
-			const buttonClicked = event.target;
-			console.log(buttonClicked);
-			if (confirm("Voulez-vous enlever ce produit?")) {
-				console.log(buttonClicked.parentElement.parentElement);
-				buttonClicked.parentElement.parentElement.remove();
-
-				// update total
-				const totalPriceElt = totalElt.reduce((acc, item) => acc + parseInt(item, 10), 0);
-				console.log(totalPriceElt);
-				totalPrice.textContent = totalPriceElt + "€";
-
-				// récupération du nom pour comparaison avec le local storage et supression dans le local
-				console.log(
-					event.target.parentElement.parentElement.firstChild.nextElementSibling.innerText
-				);
-				const productName =
-					event.target.parentElement.parentElement.firstChild.nextElementSibling.innerHTML;
-				// Suppression de l'item dans le local Storage
-				cart.forEach((item, index) => {
-					if (item.name === productName) {
-						cart.splice(index, 1);
-					}
-				});
-				localStorage.setItem("productsCart", JSON.stringify(cart));
-			} else {
-				alert("Produit toujours dans le panier");
-			}
-		});
-	}
+	const list = document.querySelector("#item-list");
+	// ajout de l'element
+	list.appendChild(row);
+	updateCartTotal();
+	// ecoute des evenements sur l'element
+	row.getElementsByClassName("btn-danger")[0].addEventListener("click", removeCartItem);
+	row.getElementsByClassName("cart-quantity-input")[0].addEventListener("change", quantityChanged);
 }
 
+function quantityChanged(event) {
+	let input = event.target;
+	if (isNaN(input.value) || input.value <= 0) {
+		input.value = 1;
+	}
+	updateCartTotal();
+}
+
+function removeCartItem(event) {
+	// removeCartItem(i);
+	const buttonClicked = event.target;
+	if (confirm("Voulez-vous enlever ce produit?")) {
+		buttonClicked.parentElement.parentElement.remove();
+
+		// récupération du nom pour comparaison avec le local storage et supression dans le local
+		const productName =
+			event.target.parentElement.parentElement.firstChild.nextElementSibling.innerHTML;
+		// Suppression de l'item dans le local Storage
+		cart.forEach((item, index) => {
+			if (item.name === productName) {
+				cart.splice(index, 1);
+			}
+		});
+		localStorage.setItem("productsCart", JSON.stringify(cart));
+		updateCartTotal();
+	} else {
+		alert("Produit toujours dans le panier");
+	}
+}
+function updateCartTotal() {
+	const cartRows = document.getElementsByClassName("cart-row");
+	const totalPriceElt = document.getElementById("total-price");
+	let totalPrice = 0;
+	for (let i = 0; i < cartRows.length; i++) {
+		let cartRow = cartRows[i];
+		const priceElt = cartRow.querySelector(".cart-price");
+		price = parseFloat(priceElt.innerText.replace("€", ""));
+		const qtyElt = cartRow.querySelector(".cart-quantity-input");
+		quantity = qtyElt.value;
+		const totalRowElt = cartRow.querySelector(".total-row");
+		totalRow = price * quantity;
+		totalRowElt.innerText = totalRow + "€";
+		totalPrice = totalPrice + totalRow;
+	}
+	totalPriceElt.innerText = totalPrice + "€";
+	localStorage.setItem("totalOrder", JSON.stringify(totalPrice));
+}
 // // *******************************************FORM******************************************
 
 // // ********************************check********************************
@@ -112,7 +119,7 @@ form.addEventListener("submit", (e) => {
 	checkInputs();
 	send();
 });
-
+//  Cette partie peut être traitée avec l'API Validation
 function checkInputs() {
 	// 	// get the values from the imputs
 	const firstNameValue = firstName.value.trim();
@@ -162,12 +169,9 @@ function checkInputs() {
 		address: addressValue,
 		zipCode: zipCodeValue,
 		city: cityValue,
-		address: addressValue,
 		email: emailValue,
 	};
 	localStorage.setItem("contact", JSON.stringify(contact));
-
-	// récupération des info de contact dans le local Storage
 }
 
 function setSuccessFor(input) {
