@@ -1,7 +1,7 @@
 # ORINOCO
 
-> Ce projet a été réalisé dans le cadre d'une formation Développeur Web avec OpenClassrooms
-
+> Ce projet a été réalisé dans le cadre d'une formation Développeur Web avec OpenClassrooms et est visible à cette adresse:
+> https://vanessaog.github.io/EmiliaOgire_5_23042021/Front/pages/
 > Il traite du front d'un site e-commerce et ne concernera que la partie du'un groupe de produits: Orinoteddies
 
 **Architecture générale du site**
