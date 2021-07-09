@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", displayCart);
 
-// ---------------Récupérattion des données dans le local storage------------------//
+// ---------------Récupération des données dans le local storage------------------//
 let cart = [];
 let productsCart = Storage.getProducts();
 cart = productsCart;

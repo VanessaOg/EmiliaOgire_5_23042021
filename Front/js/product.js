@@ -23,8 +23,6 @@ fetch("http://localhost:3000/api/teddies/" + params.get("id"))
 			});
 		});
 
-		// quantity
-
 		// Add event listeners
 		const addButton = document.getElementById("addBtn").addEventListener("click", (event) => {
 			event.preventDefault();
@@ -70,6 +68,7 @@ function displayProduct(product) {
 			</div>
 		</div>`;
 }
+
 function addProductToCart(product) {
 	let productsCart = Storage.getProducts();
 	console.log(productsCart);
@@ -82,12 +81,11 @@ function addProductToCart(product) {
 	console.log(product);
 	if (index === -1) {
 		productsCart.push(product);
-
 		alert("Votre article a bien été ajouté au panier");
 	} else {
 		productsCart[index].qty += product.qty;
-		alert("Ce produit est déjà dans le panier, Veuillez changer la quantité... Merci");
+		alert("Ce produit est déjà dans le panier, Veuillez changer la quantité si besoin... Merci");
 	}
-	// Added product to LocalStorale
+	// Added product to LocalStorage
 	localStorage.setItem("productsCart", JSON.stringify(productsCart));
 }
