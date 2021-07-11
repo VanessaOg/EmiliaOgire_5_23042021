@@ -19,7 +19,7 @@ function displayCart() {
 	}
 
 	// ---------------------- REMOVE EVENT------------------------//
-	let removeCartItemButtons = Array.from(document.querySelectorAll(".btn-remove"));
+	let removeCartItemButtons = document.querySelectorAll(".btn-remove");
 	for (let i = 0; i < removeCartItemButtons.length; i++) {
 		let button = removeCartItemButtons[i];
 		button.addEventListener("click", removeCartItem);
@@ -115,9 +115,7 @@ const email = document.querySelector("#email");
 
 form.addEventListener("submit", (e) => {
 	e.preventDefault();
-	// console.log("clicked");
 	checkInputs();
-	send();
 });
 //  Cette partie peut être traitée avec l'API Validation
 function checkInputs() {
@@ -163,15 +161,35 @@ function checkInputs() {
 	} else {
 		setSuccessFor(city);
 	}
-	const contact = {
-		lastName: lastNameValue,
-		firstName: firstNameValue,
-		address: addressValue,
-		zipCode: zipCodeValue,
-		city: cityValue,
-		email: emailValue,
-	};
-	localStorage.setItem("contact", JSON.stringify(contact));
+	if (emailValue === "") {
+		setErrorFor(email, "Veuillez remplir le champ");
+	} else if (!isEmail(emailValue)) {
+		setErrorFor(email, "Veuillez entrer une adresse email");
+	} else {
+		setSuccessFor(email);
+	}
+
+	if (
+		firstName.parentElement.className == "form-control success" &&
+		lastName.parentElement.className == "form-control success" &&
+		address.parentElement.className == "form-control success" &&
+		zipCode.parentElement.className == "form-control success" &&
+		city.parentElement.className == "form-control success" &&
+		email.parentElement.className == "form-control success"
+	) {
+		const contact = {
+			lastName: lastNameValue,
+			firstName: firstNameValue,
+			address: addressValue,
+			zipCode: zipCodeValue,
+			city: cityValue,
+			email: emailValue,
+		};
+		localStorage.setItem("contact", JSON.stringify(contact));
+		send();
+	} else {
+		alert("Veuillez vérifier le formulaire. Merci");
+	}
 }
 
 function setSuccessFor(input) {
@@ -202,35 +220,33 @@ function isCity(city) {
 	return /^[0-9a-zA-Z]+$/.test(city);
 }
 function isEmail(email) {
-	return /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/.test(
-		email
-	);
+	return /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(email);
 }
 
 function send() {
-	products = JSON.parse(localStorage.getItem("productsCart"));
+	let products = JSON.parse(localStorage.getItem("productsCart"));
 	products = Object.values(products).map((product) => {
 		return product._id;
 	});
-	console.log(products);
-	contact = JSON.parse(localStorage.getItem("contact"));
+	let contact = JSON.parse(localStorage.getItem("contact"));
 	const order = { contact, products };
-	console.log(order);
 
-	fetch("http://localhost:3000/api/teddies/order", {
-		method: "POST",
-		headers: {
-			Accept: "application/json",
-			"Content-Type": "application/json",
-		},
-		body: JSON.stringify({ contact, products }),
-	})
-		.then((res) => res.json())
-		.then((data) => {
-			console.log(data);
-			console.log(data.orderId);
-			let orderId = data.orderId;
-			localStorage.setItem("orderConfirmation", orderId);
-			window.location.href = "confirmation.html";
-		});
+	if (products !== null && contact !== null) {
+		fetch("http://localhost:3000/api/teddies/order", {
+			method: "POST",
+			headers: {
+				Accept: "application/json",
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify(order),
+		})
+			.then((res) => res.json())
+			.then((data) => {
+				let orderId = data.orderId;
+				localStorage.setItem("orderConfirmation", orderId);
+				window.location.href = "confirmation.html";
+			});
+	} else {
+		alert("Veuillez vérifier vos informations");
+	}
 }

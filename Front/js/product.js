@@ -19,7 +19,6 @@ fetch("http://localhost:3000/api/teddies/" + params.get("id"))
 			selectElt.innerHTML += `<option value='${color}'> ${color}</option>`;
 			selectElt.addEventListener("change", (event) => {
 				const productColor = event.target.value;
-				console.log(productColor);
 			});
 		});
 
@@ -27,7 +26,6 @@ fetch("http://localhost:3000/api/teddies/" + params.get("id"))
 		const addButton = document.getElementById("addBtn").addEventListener("click", (event) => {
 			event.preventDefault();
 			addProductToCart(product);
-			// console.log(productCart);
 			window.location.href = "cart.html";
 		});
 	})
@@ -71,14 +69,10 @@ function displayProduct(product) {
 
 function addProductToCart(product) {
 	let productsCart = Storage.getProducts();
-	console.log(productsCart);
 	//voir si le produit existe en comparant les identifiants
 	let productsCartId = productsCart.map((el) => el._id);
 	const index = productsCartId.indexOf(product._id);
-	console.log(productsCartId);
-	console.log(index);
 	product.qty = 1;
-	console.log(product);
 	if (index === -1) {
 		productsCart.push(product);
 		alert("Votre article a bien été ajouté au panier");

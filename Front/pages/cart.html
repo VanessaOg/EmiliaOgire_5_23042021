@@ -56,18 +56,18 @@
 			<div class="container mt-4">
 				<h3 class="display-8 text-center mt-4 mb-4">Vos coordonnées</h3>
 				<div class="grid grid-cols-4 gap-4 container pt-3 mb-3 bgColor form-control">
-					<form name="user-form" id="form">
+					<form name="user-form" id="form" novalidate>
 						<div class="row">
 							<div class="form-control bgColor col">
 								<label for="first-name">Prénom</label>
-								<input type="text" name="first-name" id="first-name" class="bgColor" required />
+								<input type="text" name="first-name" id="first-name" class="bgColor" />
 								<i class="fas fa-check-circle"></i>
 								<i class="fas fa-exclamation-circle"></i>
 								<small></small>
 							</div>
 							<div class="form-control bgColor col">
 								<label for="last-name">Nom</label>
-								<input type="text" name="last-name" id="last-name" class="bgColor" required />
+								<input type="text" name="last-name" id="last-name" class="bgColor" />
 								<i class="fas fa-check-circle"></i>
 								<i class="fas fa-exclamation-circle"></i>
 								<small></small>
@@ -82,7 +82,6 @@
 									id="address"
 									class="bgColor block px-2"
 									minlength="2"
-									maxlength="60"
 								/>
 								<i class="fas fa-check-circle"></i>
 								<i class="fas fa-exclamation-circle"></i>
@@ -91,13 +90,7 @@
 							<div class="row">
 								<div class="form-control bgColor col">
 									<label for="zip-code">Code Postal</label>
-									<input
-										type="text"
-										name="zip-code"
-										id="zip-code"
-										class="bgColor"
-										pattern="[0-9]{,5}"
-									/>
+									<input type="text" name="zip-code" id="zip-code" class="bgColor" />
 									<i class="fas fa-check-circle"></i>
 									<i class="fas fa-exclamation-circle"></i>
 									<small></small>
@@ -113,7 +106,7 @@
 						</div>
 						<div class="form-control bgColor colspan-3 align-items-center">
 							<label for="email">Adresse Mail</label>
-							<input type="email" name="email" id="email" required class="bgColor" minlength="2" />
+							<input type="email" name="email" id="email" class="bgColor" minlength="2" />
 							<i class="fas fa-check-circle"></i>
 							<i class="fas fa-exclamation-circle"></i>
 							<small></small>

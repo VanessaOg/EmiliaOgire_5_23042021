@@ -79,5 +79,5 @@ body {
 }
 .form-control.success small {
 	color: #2ecc71;
-	visibility: visible;
+	visibility: hidden;
 }
